@@ -35,6 +35,28 @@ export default function Home() {
     fetchTarefas();
   }, []);
 
+  const getPrioridadeClasse = (prioridade: string) => {
+    switch (prioridade.toLowerCase()) {
+      case "alta":
+        return "text-red-500";
+      case "media":
+        return "text-yellow-500";
+      case "baixa":
+        return "text-green-500";
+    }
+  };
+
+  const getStatusClasse = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "concluida":
+        return "text-green-500";
+      case "em andamento":
+        return "text-yellow-500";
+      case "pendente":
+        return "text-red-500";
+    }
+  };
+
   if (loading) {
     return <div>Carregando...</div>;
   }
@@ -55,7 +77,7 @@ export default function Home() {
           <div className="border mb-5" key={tarefa.id}>
             <div className="float-left">
               <div>
-                <p className="float-left mr-1">{tarefa.status}</p>
+                <p className={`float-left mr-1 ${getStatusClasse(tarefa.status)}`}>{tarefa.status}</p>
                 <h3>{tarefa.titulo}</h3>
               </div>
               <p>{tarefa.descricao}</p>
@@ -63,7 +85,7 @@ export default function Home() {
 
             <div className="border border-blue-400 rounded-lg float-right">
               <p className="float-left">{tarefa.data_limite}</p>
-              <p className="float-left">{tarefa.prioridade}</p>
+              <p className={`float-left ${getPrioridadeClasse(tarefa.prioridade)}`}>{tarefa.prioridade}</p>
             </div>
           </div>
         ))}
