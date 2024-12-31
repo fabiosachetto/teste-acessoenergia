@@ -46,14 +46,23 @@ export default function Home() {
     }
   };
 
+  // const getStatusClasse = (status: string) => {
+  //   switch (status.toLowerCase()) {
+  //     case "concluida":
+  //       return "text-green-500";
+  //     case "em andamento":
+  //       return "text-yellow-500";
+  //     case "pendente":
+  //       return "text-red-500";
+  //   }
+  // };
+
   const getStatusClasse = (status: string) => {
     switch (status.toLowerCase()) {
       case "concluida":
-        return "text-green-500";
-      case "em andamento":
-        return "text-yellow-500";
-      case "pendente":
-        return "text-red-500";
+        return "text-green-500 block";
+      default:
+        return "hidden";
     }
   };
 
@@ -70,7 +79,7 @@ export default function Home() {
 
   if (loading) {
     return <div>Carregando...</div>;
-  }
+  };
 
   return (
     <div className="container">
@@ -94,9 +103,13 @@ export default function Home() {
               <p>{tarefa.descricao}</p>
             </div>
 
-            <div className="border border-blue-400 rounded-lg float-right">
-              <p className="float-left">{formatDataLimite(tarefa.data_limite)}</p>
-              <p className={`float-left ${getPrioridadeClasse(tarefa.prioridade)}`}>{tarefa.prioridade}</p>
+            <div className="float-right">
+              <div className="border border-blue-400 rounded-lg float-left">
+                <p>{formatDataLimite(tarefa.data_limite)}</p>
+              </div>
+              <div className="float-left">
+                <p className={`${getPrioridadeClasse(tarefa.prioridade)}`}>{tarefa.prioridade}</p>
+              </div>
             </div>
           </div>
         ))}
