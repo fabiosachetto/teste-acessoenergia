@@ -132,11 +132,11 @@ export default function Home() {
 
       <div className="flex flex-col gap-4">
         {tarefasFiltradas.map((tarefa) => (
-          <div className="border mb-5 p-2" key={tarefa.id}>
+          <div className="border rounded-lg mb-5 p-2" key={tarefa.id}>
             <div className="float-left">
               <div>
                 <FontAwesomeIcon icon={getStatusIcone(tarefa.status) || faCheckCircle} className={`float-left mt-1 mr-1 ${getStatusClasse(tarefa.status)}`} />
-
+                
                 <h3 className="font-bold">{tarefa.titulo}</h3>
               </div>
               <p>{tarefa.descricao}</p>
