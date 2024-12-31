@@ -13,6 +13,7 @@ interface Tarefa {
 export default function Home() {
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filtro, setFiltro] = useState<string>("todos");
 
   useEffect(() => {
     const fetchTarefas = async () => {
@@ -81,19 +82,30 @@ export default function Home() {
     return <div>Carregando...</div>;
   };
 
+  const tarefasFiltradas = tarefas.filter(tarefa => {
+    if (filtro === "todos") return true;
+    return tarefa.status.toLowerCase() === filtro;
+  });
+
   return (
     <div className="container">
       <h2 className="mb-5">Todas as Tarefas</h2>
       <nav className="mb-5 rounded-lg bg-gray-100 border p-2">
         <ol className="flex">
-          <li className="mr-2"><a href="#">Todos</a></li>
-          <li className="mr-2"><a href="#">Em Andamento</a></li>
-          <li className="mr-2"><a href="#">Concluído</a></li>
+          <li className="mr-2">
+            <a href="#" onClick={() => setFiltro("todos")}>Todos</a>
+          </li>
+          <li className="mr-2">
+            <a href="#" onClick={() => setFiltro("em andamento")}>Em Andamento</a>
+          </li>
+          <li className="mr-2">
+            <a href="#" onClick={() => setFiltro("concluida")}>Concluído</a>
+          </li>
         </ol>
       </nav>
 
       <div className="flex flex-col gap-4">
-        {tarefas.map((tarefa) => (
+        {tarefasFiltradas.map((tarefa) => (
           <div className="border mb-5" key={tarefa.id}>
             <div className="float-left">
               <div>
