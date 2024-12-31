@@ -1,6 +1,7 @@
 "use client";
+import { faCheckCircle, faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-
 interface Tarefa {
   id: number;
   titulo: string;
@@ -47,6 +48,17 @@ export default function Home() {
     }
   };
 
+  const getPrioridadeIcone = (prioridade: string) => {
+    switch (prioridade.toLowerCase()) {
+      case "alta":
+        return faExclamationCircle;
+      case "media":
+        return faExclamationTriangle;
+      case "baixa":
+        return faCheckCircle;
+    }
+  };
+
   // const getStatusClasse = (status: string) => {
   //   switch (status.toLowerCase()) {
   //     case "concluida":
@@ -64,6 +76,17 @@ export default function Home() {
         return "text-green-500 block";
       default:
         return "hidden";
+    }
+  };
+
+  const getStatusIcone = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "concluida":
+        return faCheckCircle;
+      case "media":
+        return faExclamationTriangle;
+      case "baixa":
+        return faCheckCircle;
     }
   };
 
@@ -89,38 +112,39 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h2 className="mb-5">Todas as Tarefas</h2>
+      <h2 className="mb-5 text-lg	font-bold uppercase">Todas as Tarefas</h2>
       <nav className="mb-5 rounded-lg bg-gray-100 border p-2">
-        <ol className="flex">
-          <li className="mr-2">
-            <a href="#" onClick={() => setFiltro("todos")}>Todos</a>
+        <ol className="flex text-center">
+          <li className={`mr-2 p-2 border rounded-lg w-1/3 ${filtro === "todos" ? "bg-slate-500 text-white" : ""}`}>
+            <a href="#" className="block font-bold" onClick={() => setFiltro("todos")}>Todos</a>
           </li>
-          <li className="mr-2">
-            <a href="#" onClick={() => setFiltro("em andamento")}>Em Andamento</a>
+          <li className={`mr-2 p-2 border rounded-lg w-1/3 ${filtro === "em andamento" ? "bg-slate-500 text-white" : ""}`}>
+            <a href="#" className="block font-bold" onClick={() => setFiltro("em andamento")}>Em Andamento</a>
           </li>
-          <li className="mr-2">
-            <a href="#" onClick={() => setFiltro("concluida")}>Concluído</a>
+          <li className={`mr-2 p-2 border rounded-lg w-1/3 ${filtro === "concluida" ? "bg-slate-500 text-white" : ""}`}>
+            <a href="#" className="block font-bold" onClick={() => setFiltro("concluida")}>Concluído</a>
           </li>
         </ol>
       </nav>
 
       <div className="flex flex-col gap-4">
         {tarefasFiltradas.map((tarefa) => (
-          <div className="border mb-5" key={tarefa.id}>
+          <div className="border mb-5 p-2" key={tarefa.id}>
             <div className="float-left">
               <div>
-                <p className={`float-left mr-1 ${getStatusClasse(tarefa.status)}`}>{tarefa.status}</p>
-                <h3>{tarefa.titulo}</h3>
+                <FontAwesomeIcon icon={getStatusIcone(tarefa.status) || faCheckCircle} className={`float-left mt-1 mr-1 ${getStatusClasse(tarefa.status)}`} />
+
+                <h3 className="font-bold">{tarefa.titulo}</h3>
               </div>
               <p>{tarefa.descricao}</p>
             </div>
 
-            <div className="float-right">
-              <div className="border border-blue-400 rounded-lg float-left">
+            <div className="mt-3 float-right">
+              <div className="border border-slate-400 rounded-md p-1 text-xs float-left">
                 <p>{formatDataLimite(tarefa.data_limite)}</p>
               </div>
               <div className="float-left">
-                <p className={`${getPrioridadeClasse(tarefa.prioridade)}`}>{tarefa.prioridade}</p>
+                <FontAwesomeIcon icon={getPrioridadeIcone(tarefa.prioridade) || faCheckCircle} className={`mt-1 ml-2 ${getPrioridadeClasse(tarefa.prioridade)}`} />
               </div>
             </div>
           </div>
