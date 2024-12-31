@@ -57,6 +57,17 @@ export default function Home() {
     }
   };
 
+  const formatDataLimite = (dataLimite: string) => {
+    const date = new Date(dataLimite);
+    return date.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   if (loading) {
     return <div>Carregando...</div>;
   }
@@ -84,7 +95,7 @@ export default function Home() {
             </div>
 
             <div className="border border-blue-400 rounded-lg float-right">
-              <p className="float-left">{tarefa.data_limite}</p>
+              <p className="float-left">{formatDataLimite(tarefa.data_limite)}</p>
               <p className={`float-left ${getPrioridadeClasse(tarefa.prioridade)}`}>{tarefa.prioridade}</p>
             </div>
           </div>
